@@ -9,7 +9,7 @@ class RestauranteController {
     }
 
     public function index() {
-        $stmt = $this->pdo->query("SELECT * FROM restaurantes");
+        $stmt = $this->pdo->prepare("SELECT * FROM RESTAURANTES WHERE id_restaurante = ?");
         $restaurantes = $stmt->fetchAll();
         echo json_encode($restaurantes);
     }
@@ -22,9 +22,18 @@ class RestauranteController {
     }
 
     public function store() {
-        $data = json_decode(file_get_contents("php://input"), true);
-        $stmt = $this->pdo->prepare("INSERT INTO restaurantes (nombre, direccion) VALUES (?, ?)");
-        $stmt->execute([$data['nombre'], $data['direccion']]);
-        echo json_encode(['message' => 'Restaurante creado']);
+        try {
+            $data = json_decode(file_get_contents("php://input"), true);
+            // Validación de datos
+            if (empty($data['nombre']) || empty($data['direccion'])) {
+                echo json_encode(['message' => 'Nombre y dirección son requeridos']);
+                return;
+            }
+            $stmt = $this->pdo->prepare("INSERT INTO RESTAURANTES (nombre, direccion) VALUES (?, ?)");
+            $stmt->execute([$data['nombre'], $data['direccion']]);
+            echo json_encode(['message' => 'Restaurante creado']);
+        } catch (Exception $e) {
+            echo json_encode(['message' => 'Error al crear el restaurante: ' . $e->getMessage()]);
+        }
     }
 }
