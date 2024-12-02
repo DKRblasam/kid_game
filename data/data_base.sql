@@ -155,4 +155,4 @@ CROSS JOIN
     RESTAURANTES r
 WHERE 
     c.id_cliente <= 10 AND r.id_restaurante <= 10
-LIMIT 30;
+LIMIT 30; 
