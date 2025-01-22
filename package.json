@@ -1,0 +1,14 @@
+{
+  "name": "kid_game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "postcss backend/CSS/main.css -o backend/CSS/output.css"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.0.0",
+    "tailwindcss": "^2.0.0"
+  },
+  "devDependencies": {}
+}
